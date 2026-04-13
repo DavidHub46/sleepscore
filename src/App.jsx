@@ -1822,6 +1822,17 @@ export default function App() {
             >
               Recommencer depuis le début
             </button>
+            <div
+              style={{
+                fontSize: 12,
+                color: "var(--color-text-tertiary)",
+                marginTop: 6,
+                textAlign: "center",
+              }}
+            >
+              💡 Pensez à noter ou prendre en screenshot votre plan avant de
+              recommencer.
+            </div>
           </div>
         )}
       </div>
