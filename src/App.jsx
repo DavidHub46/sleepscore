@@ -540,14 +540,13 @@ function Loader({ onDone }) {
 }
 
 export default function App() {
-  const params = new URLSearchParams(window.location.search);
-  const initProfil = params.get("profil");
-  const initScore = parseInt(params.get("score")) || 0;
-  const [screen, setScreen] = useState(initProfil ? "plan" : "landing");
+  const savedProfil = localStorage.getItem("sleepscore_profil");
+  const savedScore = parseInt(localStorage.getItem("sleepscore_score")) || 0;
+  const [screen, setScreen] = useState(savedProfil ? "plan" : "landing");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [score, setScore] = useState(initScore);
-  const [profileKey, setProfileKey] = useState(initProfil || null);
+  const [score, setScore] = useState(savedScore);
+  const [profileKey, setProfileKey] = useState(savedProfil || null);
   const [openDay, setOpenDay] = useState(0);
   const [openFaq, setOpenFaq] = useState(null);
   const [paid, setPaid] = useState(false);
@@ -1462,10 +1461,10 @@ export default function App() {
               <Btn
                 full
                 onClick={() => {
+                  localStorage.setItem("sleepscore_profil", profileKey);
+                  localStorage.setItem("sleepscore_score", score);
                   window.open(
-                    `https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00?success_url=${encodeURIComponent(
-                      `https://sleepscore-pihy.vercel.app?profil=${profileKey}&score=${score}`
-                    )}`,
+                    "https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00",
                     "_blank"
                   );
                 }}
