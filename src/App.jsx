@@ -1786,6 +1786,8 @@ export default function App() {
             </p>
             <Btn
               onClick={() => {
+                localStorage.removeItem("sleepscore_profil");
+                localStorage.removeItem("sleepscore_score");
                 setScreen("landing");
                 setAnswers({});
                 setStep(0);
@@ -1802,6 +1804,8 @@ export default function App() {
           <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
             <button
               onClick={() => {
+                localStorage.removeItem("sleepscore_profil");
+                localStorage.removeItem("sleepscore_score");
                 setScreen("landing");
                 setAnswers({});
                 setStep(0);
