@@ -540,11 +540,14 @@ function Loader({ onDone }) {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState("landing");
+  const params = new URLSearchParams(window.location.search);
+  const initProfil = params.get("profil");
+  const initScore = parseInt(params.get("score")) || 0;
+  const [screen, setScreen] = useState(initProfil ? "plan" : "landing");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [score, setScore] = useState(0);
-  const [profileKey, setProfileKey] = useState(null);
+  const [score, setScore] = useState(initScore);
+  const [profileKey, setProfileKey] = useState(initProfil || null);
   const [openDay, setOpenDay] = useState(0);
   const [openFaq, setOpenFaq] = useState(null);
   const [paid, setPaid] = useState(false);
@@ -1460,7 +1463,9 @@ export default function App() {
                 full
                 onClick={() => {
                   window.open(
-                    "https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00",
+                    `https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00?success_url=${encodeURIComponent(
+                      `https://sleepscore-pihy.vercel.app?profil=${profileKey}&score=${score}`
+                    )}`,
                     "_blank"
                   );
                 }}
