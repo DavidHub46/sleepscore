@@ -1595,11 +1595,8 @@ export default function App() {
                       width: 22,
                       height: 22,
                       borderRadius: "50%",
-                      border: checkedDays[i]
-                        ? `none`
-                        : `1.5px solid var(--color-border-secondary)`,
-                      background: checkedDays[i] ? G : "transparent",
-                      display: "flex",
+                      border: checkedDays[i] ? "none" : "1.5px solid #888",
+                      background: checkedDays[i] ? G : "#f0f0f0",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
