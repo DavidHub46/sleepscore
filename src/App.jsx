@@ -195,7 +195,7 @@ function Logo({ onReset }) {
           SLEEP<span style={{ color: C.green }}>SCORE</span>
         </span>
       </div>
-             )}
+
     </div>
   );
 }
