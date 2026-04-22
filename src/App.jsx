@@ -552,9 +552,7 @@ function Plan({ score, profileKey, onReset }) {
             </div>
           );
         })}
-      </div>
-  </div>
-
+     </div>
       <div style={{ marginTop: "2rem", textAlign: "center" }}>
         <div style={{ fontSize: 11, color: "rgba(240,234,216,0.4)", marginBottom: 8 }}>
           💡 Pensez à noter ou prendre en screenshot votre plan avant de recommencer.
@@ -563,6 +561,7 @@ function Plan({ score, profileKey, onReset }) {
           Refaire le quiz
         </button>
       </div>
+    </div>
     );
 }
 
