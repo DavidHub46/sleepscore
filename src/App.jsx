@@ -195,16 +195,7 @@ function Logo({ onReset }) {
           SLEEP<span style={{ color: C.green }}>SCORE</span>
         </span>
       </div>
-     {onReset && (
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 10, color: "rgba(240,234,216,0.4)", marginBottom: 4 }}>
-              💡 Pensez à noter ou screenshot votre plan avant de recommencer.
-            </div>
-            <button onClick={onReset} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 8, padding: "5px 12px", fontSize: 11, color: "rgba(240,234,216,0.5)", cursor: "pointer" }}>
-              ↺ Reset
-            </button>
-          </div>
-        )}
+             )}
     </div>
   );
 }
@@ -562,8 +553,17 @@ function Plan({ score, profileKey, onReset }) {
           );
         })}
       </div>
-    </div>
-  );
+  </div>
+
+      <div style={{ marginTop: "2rem", textAlign: "center" }}>
+        <div style={{ fontSize: 11, color: "rgba(240,234,216,0.4)", marginBottom: 8 }}>
+          💡 Pensez à noter ou prendre en screenshot votre plan avant de recommencer.
+        </div>
+        <button onClick={onReset} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 8, padding: "8px 20px", fontSize: 13, color: "rgba(240,234,216,0.5)", cursor: "pointer" }}>
+          Refaire le quiz
+        </button>
+      </div>
+    );
 }
 
 // ── APP (MAIN) ──────────────────────────────────────────────────────────────
