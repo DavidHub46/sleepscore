@@ -325,7 +325,7 @@ function Landing({ onStart, onReset }) {
           ))}
         </div>
         <GoldBtn onClick={onStart} full style={{ maxWidth: 300 }}>Commencer maintenant →</GoldBtn>
-        <div style={{ fontSize: 11, color: C.textDim, marginTop: 10 }}>Moins cher qu'un café · Pour le sommeil que vous méritez</div>
+        <div style={{ fontSize: 11, color: C.textDim, marginTop: 10 }}>Moins cher qu'un café · Pour retrouver le sommeil que vous méritez !</div>
       </div>
 
       {/* FAQ */}
@@ -478,7 +478,7 @@ function Result({ score, profileKey, onUnlock }) {
           <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 40, fontWeight: 500, color: C.goldPale, lineHeight: 1, marginBottom: 4 }}>1,99€</div>
           <div style={{ fontSize: 12, color: C.textDim, marginBottom: "1rem" }}>Paiement unique · Accès immédiat</div>
           <GoldBtn full onClick={onUnlock} style={{ maxWidth: 300 }}>Débloquer mon programme →</GoldBtn>
-          <div style={{ fontSize: 11, color: C.textDim, marginTop: 8 }}>Moins cher qu'un café</div>
+          <div style={{ fontSize: 11, color: C.textDim, marginTop: 8 }}>Moins cher qu'un café · Pour retrouver le sommeil que vous méritez !</div>
         </div>
       </div>
     </div>
