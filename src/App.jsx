@@ -37,18 +37,12 @@ const C = {
 const QUESTIONS = [
   { q: "Combien d'heures dormez-vous en moyenne par nuit ?", sub: "Week-ends inclus",
     opts: [["Moins de 5h",10],["5h à 6h",25],["6h à 7h",38],["7h à 8h",50],["Plus de 8h",42]] },
-  { q: "Comment qualifieriez-vous votre endormissement ?", sub: "Au moment de vous coucher",
-    opts: [["Rapide — moins de 10 min",50],["Normal — 10 à 20 min",35],["Long — 20 à 45 min",20],["Très difficile — plus de 45 min",5]] },
-  { q: "Vous réveillez-vous la nuit ?", sub: "",
-    opts: [["Jamais ou rarement",50],["1 à 2 fois par semaine",30],["Plusieurs fois par semaine",15],["Toutes les nuits",5]] },
   { q: "Comment vous sentez-vous au réveil ?", sub: "",
     opts: [["Reposé et en forme",50],["Correct, mais pas au top",30],["Fatigué, j'ai du mal à démarrer",15],["Épuisé, comme si je n'avais pas dormi",5]] },
-  { q: "Utilisez-vous un écran avant de dormir ?", sub: "Dans l'heure précédant le coucher",
-    opts: [["Non, jamais",50],["Rarement",35],["Souvent",15],["Toujours",5]] },
   { q: "Ressentez-vous de la fatigue dans la journée ?", sub: "",
     opts: [["Non, j'ai de l'énergie",50],["Un coup de pompe après le déjeuner",30],["Souvent fatigué, du mal à me concentrer",15],["Épuisé en permanence",5]] },
-  { q: "Consommez-vous caféine ou alcool le soir ?", sub: "",
-    opts: [["Non, ni l'un ni l'autre",50],["Parfois l'un ou l'autre",30],["Régulièrement",15],["Les deux, souvent",5]] },
+  { q: "Utilisez-vous un écran avant de dormir ?", sub: "Dans l'heure précédant le coucher",
+    opts: [["Non, jamais",50],["Rarement",35],["Souvent",15],["Toujours",5]] },
   { q: "Comment évaluez-vous votre niveau de stress ?", sub: "",
     opts: [["Faible — je me sens serein",50],["Modéré — quelques tensions",30],["Élevé — souvent sous pression",15],["Très élevé — anxiété fréquente",5]] },
 ];
@@ -443,17 +437,23 @@ function Result({ score, profileKey, onUnlock }) {
           <div style={{ display: "inline-block", background: p.accent, color: "#fff", fontSize: 13, fontWeight: 500, padding: "5px 18px", borderRadius: 20, marginTop: 4 }}>{p.name}</div>
         </div>
         <p style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", fontSize: 16, color: C.textMuted, lineHeight: 1.65, maxWidth: 320, margin: "0 auto 1.25rem" }}>{p.desc}</p>
-        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.25rem", textAlign: "left" }}>
+        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.25rem", textAlign: "left", position: "relative" }}>
           <SectionLabel style={{ marginBottom: "1rem" }}>Vos points d'amélioration</SectionLabel>
-          {p.recos.map((r, i) => (
-            <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, flexShrink: 0, marginTop: 6 }} />
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 500, color: C.text, marginBottom: 2 }}>{r.t}</div>
-                <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>{r.d}</div>
+          <div style={{ filter: "blur(4px)", pointerEvents: "none", userSelect: "none" }}>
+            {p.recos.map((r, i) => (
+              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, flexShrink: 0, marginTop: 6 }} />
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: C.text, marginBottom: 2 }}>{r.t}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>{r.d}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center" }}>
+            <div style={{ fontSize: 28, marginBottom: 6 }}>🔒</div>
+            <div style={{ fontSize: 13, color: C.goldLight, fontWeight: 500 }}>Découvrez ce qui sabote votre sommeil</div>
+          </div>
         </div>
       </Card>
 
