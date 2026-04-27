@@ -568,10 +568,12 @@ function Plan({ score, profileKey, onReset }) {
 // ── APP (MAIN) ──────────────────────────────────────────────────────────────
 
 export default function App() {
-  const savedProfile = localStorage.getItem("sleepscore_profil");
+const savedProfile = localStorage.getItem("sleepscore_profil");
   const savedScore   = parseInt(localStorage.getItem("sleepscore_score")) || 0;
+  const urlParams    = new URLSearchParams(window.location.search);
+  const startQuiz    = urlParams.get("start") === "quiz";
 
-  const [screen,     setScreen]     = useState(savedProfile ? "plan" : "landing");
+  const [screen,     setScreen]     = useState(savedProfile ? "plan" : startQuiz ? "quiz" : "landing");
   const [step,       setStep]       = useState(0);
   const [answers,    setAnswers]    = useState({});
   const [score,      setScore]      = useState(savedScore);
