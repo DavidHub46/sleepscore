@@ -14,8 +14,15 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 // ── CONFIG ─────────────────────────────────────────────────────────────────
-const LOGO_SRC  = "/logo.jpg";          // logo dans /public
-const STRIPE_URL = "https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00"; // ← remplacer
+const LOGO_SRC  = "/logo.jpg";
+const STRIPE_URL = "https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00";
+
+// ── GA TRACKING ────────────────────────────────────────────────────────────
+function trackEvent(eventName, params = {}) {
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, params);
+  }
+}
 
 // ── DESIGN TOKENS ──────────────────────────────────────────────────────────
 const C = {
@@ -189,7 +196,6 @@ function Logo({ onReset }) {
           SLEEP<span style={{ color: C.green }}>SCORE</span>
         </span>
       </div>
-
     </div>
   );
 }
@@ -268,7 +274,7 @@ function Landing({ onStart, onReset }) {
       <div style={{ marginBottom: "2.5rem" }}>
         <SectionLabel style={{ marginBottom: "1rem" }}>Comment ça marche</SectionLabel>
         <Card style={{ padding: 0, overflow: "hidden" }}>
-          {[["1", "Faites le quiz", "8 questions sur vos habitudes", C.green],
+          {[["1", "Faites le quiz", "5 questions sur vos habitudes", C.green],
             ["2", "Obtenez votre score", "Profil précis, points faibles identifiés", C.gold],
             ["3", "Suivez votre plan", "7 jours d'actions concrètes", "#7B5EA7"]
           ].map(([n, t, d, c], i, arr) => (
@@ -429,33 +435,55 @@ function Loader({ onDone }) {
 
 function Result({ score, profileKey, onUnlock }) {
   const p = PROFILES[profileKey];
+  const plan = PLANS[profileKey];
+
   return (
-    <div className="ss-screen" style={{ padding: "1.5rem 1.25rem" }}>
+    <div className="ss-screen" style={{ padding: "1.5rem 1.25rem 2rem" }}>
+      {/* Score + profil */}
       <Card style={{ textAlign: "center", marginBottom: "1rem" }}>
         <div style={{ marginBottom: "1.25rem" }}>
           <ScoreArc score={score} accent={p.accent} />
           <div style={{ display: "inline-block", background: p.accent, color: "#fff", fontSize: 13, fontWeight: 500, padding: "5px 18px", borderRadius: 20, marginTop: 4 }}>{p.name}</div>
         </div>
-        <p style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", fontSize: 16, color: C.textMuted, lineHeight: 1.65, maxWidth: 320, margin: "0 auto 1.25rem" }}>{p.desc}</p>
-        <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "1.25rem", textAlign: "left", position: "relative" }}>
-          <SectionLabel style={{ marginBottom: "1rem" }}>Vos points d'amélioration</SectionLabel>
-          <div style={{ filter: "blur(4px)", pointerEvents: "none", userSelect: "none" }}>
-            {p.recos.map((r, i) => (
-              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
-                <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.accent, flexShrink: 0, marginTop: 6 }} />
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: C.text, marginBottom: 2 }}>{r.t}</div>
-                  <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>{r.d}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center" }}>
-            <div style={{ fontSize: 28, marginBottom: 6 }}>🔒</div>
-            <div style={{ fontSize: 13, color: C.goldLight, fontWeight: 500 }}>Découvrez ce qui sabote votre sommeil</div>
-          </div>
-        </div>
+        <p style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", fontSize: 16, color: C.textMuted, lineHeight: 1.65, maxWidth: 320, margin: "0 auto" }}>{p.desc}</p>
       </Card>
+
+      {/* Teasing plan 7 jours */}
+      <div style={{ marginBottom: "1rem" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.875rem" }}>
+          <SectionLabel>Votre programme sur 7 jours</SectionLabel>
+          <div style={{ fontSize: 11, color: C.gold, fontWeight: 500 }}>🔒 Verrouillé</div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {plan.map((d, i) => {
+            const dc = DAY_COLORS[i];
+            return (
+              <div key={i} style={{
+                background: C.bgCard,
+                border: `1px solid ${C.border}`,
+                borderRadius: 14,
+                padding: "12px 16px",
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                opacity: 0.75,
+                filter: i >= 1 ? "blur(2px)" : "none",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}>
+                <div style={{ width: 28, height: 28, borderRadius: "50%", background: dc.acc, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{i + 1}</span>
+                </div>
+                <span style={{ fontSize: 13, fontWeight: 500, color: C.text }}>{d.theme}</span>
+                <span style={{ marginLeft: "auto", fontSize: 12, color: C.textDim }}>🔒</span>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ textAlign: "center", marginTop: "0.75rem", fontSize: 12, color: C.textDim }}>
+          Débloquez les 7 jours pour accéder à vos actions matin, journée et soir.
+        </div>
+      </div>
 
       {/* Paywall */}
       <div style={{ background: "linear-gradient(135deg,#0F3526,#0A2519)", border: `1px solid ${C.borderGold}`, borderRadius: 22, padding: "1.75rem" }}>
@@ -476,8 +504,8 @@ function Result({ score, profileKey, onUnlock }) {
         </div>
         <div style={{ textAlign: "center" }}>
           <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 40, fontWeight: 500, color: C.goldPale, lineHeight: 1, marginBottom: 4 }}>1,99€</div>
-          <div style={{ fontSize: 12, color: C.textDim, marginBottom: "1rem" }}>Paiement unique · Accès immédiat</div>
-          <GoldBtn full onClick={onUnlock} style={{ maxWidth: 300 }}>Débloquer mon programme →</GoldBtn>
+          <div style={{ fontSize: 12, color: C.textDim, marginBottom: "1rem" }}>Paiement unique · Accès immédiat · Aucun abonnement, aucune surprise.</div>
+          <GoldBtn full onClick={onUnlock} style={{ maxWidth: 300 }}>Voir mon plan complet →</GoldBtn>
           <div style={{ fontSize: 11, color: C.textDim, marginTop: 8 }}>Moins cher qu'un café · Pour retrouver le sommeil que vous méritez !</div>
         </div>
       </div>
@@ -552,26 +580,26 @@ function Plan({ score, profileKey, onReset }) {
             </div>
           );
         })}
-     </div>
+      </div>
       <div style={{ marginTop: "2rem", textAlign: "center" }}>
         <div style={{ fontSize: 11, color: "rgba(240,234,216,0.4)", marginBottom: 8 }}>
-          💡 Pensez à noter ou prendre en screenshot votre plan avant de recommencer.
+          Pensez à noter ou prendre en screenshot votre plan avant de recommencer.
         </div>
         <button onClick={onReset} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 8, padding: "8px 20px", fontSize: 13, color: "rgba(240,234,216,0.5)", cursor: "pointer" }}>
           Refaire le quiz
         </button>
       </div>
     </div>
-    );
+  );
 }
 
 // ── APP (MAIN) ──────────────────────────────────────────────────────────────
 
 export default function App() {
-const savedProfile = localStorage.getItem("sleepscore_profil");
+  const savedProfile = localStorage.getItem("sleepscore_profil");
   const savedScore   = parseInt(localStorage.getItem("sleepscore_score")) || 0;
   const urlParams    = new URLSearchParams(window.location.search);
-const autoStartQuiz = urlParams.get("start") === "quiz";
+  const autoStartQuiz = urlParams.get("start") === "quiz";
 
   const [screen,     setScreen]     = useState(savedProfile ? "plan" : autoStartQuiz ? "quiz" : "landing");
   const [step,       setStep]       = useState(0);
@@ -587,17 +615,27 @@ const autoStartQuiz = urlParams.get("start") === "quiz";
     setAnswers({}); setStep(0); go("landing");
   }
 
-  function startQuiz() { setAnswers({}); setStep(0); go("quiz"); }
+  function startQuiz() {
+    trackEvent("quiz_start");
+    setAnswers({}); setStep(0); go("quiz");
+  }
 
-  function selectAnswer(qi, val) { setAnswers((p) => ({ ...p, [qi]: val })); }
+  function selectAnswer(qi, val) {
+    setAnswers((p) => ({ ...p, [qi]: val }));
+  }
 
   function nextStep() {
-    if (step < QUESTIONS.length - 1) { setStep((s) => s + 1); window.scrollTo(0, 0); }
-    else {
+    if (step < QUESTIONS.length - 1) {
+      trackEvent("quiz_question", { question_index: step + 1 });
+      setStep((s) => s + 1);
+      window.scrollTo(0, 0);
+    } else {
       const raw = Object.values(answers).reduce((a, b) => a + b, 0);
       const s   = Math.round((raw / (8 * 50)) * 100);
       const pk  = s >= 75 ? "high" : s >= 50 ? "mid" : "low";
-      setScore(s); setProfileKey(pk); go("loading");
+      setScore(s); setProfileKey(pk);
+      trackEvent("quiz_complete", { score: s, profile: pk });
+      go("loading");
     }
   }
 
@@ -606,12 +644,14 @@ const autoStartQuiz = urlParams.get("start") === "quiz";
   function onLoaderDone() {
     localStorage.setItem("sleepscore_profil", profileKey);
     localStorage.setItem("sleepscore_score",  score);
+    trackEvent("result_view", { profile: profileKey, score });
     go("result");
   }
 
   function onUnlock() {
     localStorage.setItem("sleepscore_profil", profileKey);
     localStorage.setItem("sleepscore_score",  score);
+    trackEvent("unlock_click", { profile: profileKey, score });
     window.open(STRIPE_URL, "_blank");
     go("plan");
   }
