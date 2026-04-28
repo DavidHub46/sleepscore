@@ -454,9 +454,35 @@ function Result({ score, profileKey, onUnlock }) {
           <SectionLabel>Votre programme sur 7 jours</SectionLabel>
           <div style={{ fontSize: 11, color: C.gold, fontWeight: 500 }}>🔒 Verrouillé</div>
         </div>
+
+        {/* Jour 1 — déployé, contenu flouté */}
+        <div style={{ background: C.bgCard, border: `2px solid ${DAY_COLORS[0].acc}`, borderRadius: 14, overflow: "hidden", marginBottom: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px" }}>
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: DAY_COLORS[0].acc, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>1</span>
+            </div>
+            <span style={{ fontSize: 13, fontWeight: 500, color: C.text }}>{plan[0].theme}</span>
+          </div>
+          <div style={{ borderTop: `1px solid ${C.border}`, padding: "12px 16px", position: "relative" }}>
+            <div style={{ filter: "blur(4px)", pointerEvents: "none", userSelect: "none" }}>
+              {[["Matin", plan[0].matin], ["Journée", plan[0].journee], ["Soir", plan[0].soir]].map(([lbl, txt]) => (
+                <div key={lbl} style={{ marginBottom: 10 }}>
+                  <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: DAY_COLORS[0].label, marginBottom: 3 }}>{lbl}</div>
+                  <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.5 }}>{txt}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", whiteSpace: "nowrap" }}>
+              <div style={{ fontSize: 20, marginBottom: 4 }}>🔒</div>
+              <div style={{ fontSize: 12, color: C.goldLight, fontWeight: 500 }}>Débloquez pour accéder</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Jours 2–7 — titres floutés */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {plan.map((d, i) => {
-            const dc = DAY_COLORS[i];
+          {plan.slice(1).map((d, i) => {
+            const dc = DAY_COLORS[i + 1];
             return (
               <div key={i} style={{
                 background: C.bgCard,
@@ -466,13 +492,12 @@ function Result({ score, profileKey, onUnlock }) {
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                opacity: 0.75,
-                filter: i >= 1 ? "blur(2px)" : "none",
+                filter: "blur(2px)",
                 pointerEvents: "none",
                 userSelect: "none",
               }}>
                 <div style={{ width: 28, height: 28, borderRadius: "50%", background: dc.acc, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{i + 1}</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{i + 2}</span>
                 </div>
                 <span style={{ fontSize: 13, fontWeight: 500, color: C.text }}>{d.theme}</span>
                 <span style={{ marginLeft: "auto", fontSize: 12, color: C.textDim }}>🔒</span>
@@ -480,6 +505,7 @@ function Result({ score, profileKey, onUnlock }) {
             );
           })}
         </div>
+
         <div style={{ textAlign: "center", marginTop: "0.75rem", fontSize: 12, color: C.textDim }}>
           Débloquez les 7 jours pour accéder à vos actions matin, journée et soir.
         </div>
