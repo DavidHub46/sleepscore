@@ -136,7 +136,7 @@ const REVIEWS = [
 const FAQS = [
   { q: "Est-ce vraiment personnalisé ?",       a: "Oui — votre plan est généré selon vos réponses. Chaque profil reçoit un programme distinct." },
   { q: "Et si je ne vois pas de résultat ?",   a: "La majorité observe une amélioration dès le 4e jour. Si ce n'est pas le cas, consultez votre médecin." },
-  { q: "C'est quoi exactement pour 1,99€ ?",   a: "Le quiz et le score sont gratuits. Vous payez uniquement pour débloquer votre plan 7 jours complet." },
+  { q: "C'est quoi exactement pour 6,99€ ?",   a: "Le quiz et le score sont gratuits. Vous payez uniquement pour débloquer votre plan 7 jours complet." },
   { q: "Sans abonnement ?",                    a: "Oui, paiement unique. Aucun renouvellement, aucune surprise." },
 ];
 
@@ -257,7 +257,7 @@ function Landing({ onStart, onReset }) {
           Découvrez votre profil de sommeil en 3 minutes et recevez un plan personnalisé pour retrouver un repos profond.
         </p>
         <GoldBtn onClick={onStart}>Faire le quiz gratuit →</GoldBtn>
-        <div style={{ marginTop: 12, fontSize: 12, color: C.textDim }}>Plan 7 jours · 1,99€ · Sans abonnement</div>
+        <div style={{ marginTop: 12, fontSize: 12, color: C.textDim }}>Plan 7 jours · 6,99€ · Sans abonnement</div>
       </div>
 
       {/* Stats */}
@@ -318,7 +318,7 @@ function Landing({ onStart, onReset }) {
       {/* Price block */}
       <div style={{ background: "linear-gradient(135deg,#0F3526,#0A2519)", border: `1px solid ${C.borderGold}`, borderRadius: 22, padding: "2rem", textAlign: "center", marginBottom: "2.5rem" }}>
         <SectionLabel style={{ color: C.gold, marginBottom: 8 }}>Offre unique</SectionLabel>
-        <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 52, fontWeight: 500, color: C.goldPale, lineHeight: 1 }}>1,99€</div>
+        <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 52, fontWeight: 500, color: C.goldPale, lineHeight: 1 }}>6,99€</div>
         <div style={{ fontSize: 12, color: C.textDim, margin: "8px 0 1.5rem" }}>Paiement unique · Accès immédiat · Sans abonnement</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 9, maxWidth: 280, margin: "0 auto 1.5rem", textAlign: "left" }}>
           {["Quiz complet + score personnalisé", "Identification de votre profil", "Plan 7 jours détaillé", "Conseils adaptés à vos habitudes"].map((item, i) => (
@@ -331,7 +331,7 @@ function Landing({ onStart, onReset }) {
           ))}
         </div>
         <GoldBtn onClick={onStart} full style={{ maxWidth: 300 }}>Commencer maintenant →</GoldBtn>
-        <div style={{ fontSize: 11, color: C.textDim, marginTop: 10 }}>Moins cher qu'un café · Pour retrouver le sommeil que vous méritez !</div>
+        <div style={{ fontSize: 11, color: C.textDim, marginTop: 10 }}>Moins d'un euro par jour · Pour retrouver le sommeil que vous méritez !</div>
       </div>
 
       {/* FAQ */}
@@ -463,18 +463,26 @@ function Result({ score, profileKey, onUnlock }) {
             </div>
             <span style={{ fontSize: 13, fontWeight: 500, color: C.text }}>{plan[0].theme}</span>
           </div>
-          <div style={{ borderTop: `1px solid ${C.border}`, padding: "12px 16px", position: "relative" }}>
-            <div style={{ filter: "blur(4px)", pointerEvents: "none", userSelect: "none" }}>
-              {[["Matin", plan[0].matin], ["Journée", plan[0].journee], ["Soir", plan[0].soir]].map(([lbl, txt]) => (
-                <div key={lbl} style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: DAY_COLORS[0].label, marginBottom: 3 }}>{lbl}</div>
-                  <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.5 }}>{txt}</div>
-                </div>
-              ))}
+          <div style={{ borderTop: `1px solid ${C.border}`, padding: "12px 16px" }}>
+            {/* Matin — visible */}
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: DAY_COLORS[0].label, marginBottom: 3 }}>Matin</div>
+              <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.5 }}>{plan[0].matin}</div>
             </div>
-            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", whiteSpace: "nowrap" }}>
-              <div style={{ fontSize: 20, marginBottom: 4 }}>🔒</div>
-              <div style={{ fontSize: 12, color: C.goldLight, fontWeight: 500 }}>Débloquez pour accéder</div>
+            {/* Journée + Soir — floutés avec cadenas */}
+            <div style={{ position: "relative" }}>
+              <div style={{ filter: "blur(4px)", pointerEvents: "none", userSelect: "none" }}>
+                {[["Journée", plan[0].journee], ["Soir", plan[0].soir]].map(([lbl, txt]) => (
+                  <div key={lbl} style={{ marginBottom: 10 }}>
+                    <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: DAY_COLORS[0].label, marginBottom: 3 }}>{lbl}</div>
+                    <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.5 }}>{txt}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", whiteSpace: "nowrap" }}>
+                <div style={{ fontSize: 18, marginBottom: 3 }}>🔒</div>
+                <div style={{ fontSize: 11, color: C.goldLight, fontWeight: 500 }}>Débloquez pour accéder</div>
+              </div>
             </div>
           </div>
         </div>
@@ -529,10 +537,10 @@ function Result({ score, profileKey, onUnlock }) {
           ))}
         </div>
         <div style={{ textAlign: "center" }}>
-          <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 40, fontWeight: 500, color: C.goldPale, lineHeight: 1, marginBottom: 4 }}>1,99€</div>
+          <div style={{ fontFamily: "'Playfair Display',serif", fontSize: 40, fontWeight: 500, color: C.goldPale, lineHeight: 1, marginBottom: 4 }}>6,99€</div>
           <div style={{ fontSize: 12, color: C.textDim, marginBottom: "1rem" }}>Paiement unique · Accès immédiat · Aucun abonnement, aucune surprise.</div>
           <GoldBtn full onClick={onUnlock} style={{ maxWidth: 300 }}>Voir mon plan complet →</GoldBtn>
-          <div style={{ fontSize: 11, color: C.textDim, marginTop: 8 }}>Moins cher qu'un café · Pour retrouver le sommeil que vous méritez !</div>
+          <div style={{ fontSize: 11, color: C.textDim, marginTop: 8 }}>Moins d'un euro par jour · Pour retrouver le sommeil que vous méritez !</div>
         </div>
       </div>
     </div>
