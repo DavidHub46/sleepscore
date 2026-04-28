@@ -15,7 +15,7 @@ import "./App.css";
 
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 const LOGO_SRC  = "/logo.jpg";
-const STRIPE_URL = "https://buy.stripe.com/fZu14n06EfiW1etbJy5EY00";
+const STRIPE_URL = "https://buy.stripe.com/5kQ8wPcTq6MqcXbfZO5EY01";
 
 // ── GA TRACKING ────────────────────────────────────────────────────────────
 function trackEvent(eventName, params = {}) {
